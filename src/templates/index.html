@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaflet Map of New York City with Major Cities</title>
+
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+
+    <!-- Optional: You can add a custom style for your map -->
+    <style>
+      #map {
+        height: 500px; /* Set the map height */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>New York City with Major Cities Highlighted</h1>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+      // Initialize the map centered on New York City
+      var map = L.map("map", {
+        center: [40.7128, -74.006], // NYC lat/lng
+        zoom: 12, // Initial zoom level
+        minZoom: 12, // Prevent zooming out below zoom level 12
+        maxZoom: 18, // Allow zooming in up to zoom level 18
+        zoomControl: true, // Enable zoom controls
+      });
+
+      // Add CartoDB Positron tile layer (minimalistic map with country borders and major features)
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+        {
+          attribution:
+            '&copy; <a href="https://carto.com/attributions">CartoDB</a> &mdash; ' +
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+      ).addTo(map);
+
+      // Major cities (districts) in New York City
+      var cities = [
+        { name: "Manhattan", lat: 40.7831, lon: -73.9712 },
+        { name: "Brooklyn", lat: 40.6782, lon: -73.9442 },
+        { name: "Queens", lat: 40.7282, lon: -73.7949 },
+        { name: "The Bronx", lat: 40.8448, lon: -73.8648 },
+        { name: "Staten Island", lat: 40.5795, lon: -74.1502 },
+      ];
+
+      // Add a large red dot for each major city
+      cities.forEach(function (city) {
+        L.circleMarker([city.lat, city.lon], {
+          radius: 10, // Size of the circle marker
+          fillColor: "#ff0000", // Red color
+          color: "#ff0000", // Border color (same as fill color)
+          weight: 3, // Border thickness
+          opacity: 1, // Opacity of the circle
+          fillOpacity: 0.8, // Fill opacity
+        })
+          .addTo(map)
+          .bindPopup("<b>" + city.name + "</b>")
+          .openPopup(); // Popup on click
+      });
+
+      // Restrict the map's bounds to NYC's coordinates
+      var bounds = [
+        [40.4774, -74.2591], // SW corner (bottom left of NYC)
+        [40.9176, -73.7004], // NE corner (top right of NYC)
+      ];
+
+      // Set the maximum bounds to prevent zooming out beyond NYC
+      map.setMaxBounds(bounds);
+    </script>
+  </body>
+</html>
