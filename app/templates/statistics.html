@@ -29,7 +29,7 @@
 
         <!-- Chart Section -->
         <div class="chart-container mx-auto max-w-4xl">
-            <canvas id="utilityChart" width="800" height="400"></canvas>
+            <canvas id="utilityChart" style="width:100%;max-width:800px;height:400px;"></canvas>
         </div>
 
         <!-- Legend -->
@@ -56,6 +56,7 @@
     </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Ensure the chart displays correctly by initializing it dynamically
     document.addEventListener('DOMContentLoaded', function () {
